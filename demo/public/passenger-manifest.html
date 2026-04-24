@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SilverOS — Passenger Manifest</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1923; color: #e2e8f0; }
+    .header { background: #1a2332; padding: 16px 24px; border-bottom: 1px solid #2d3748; }
+    .header h1 { font-size: 18px; font-weight: 600; }
+    .header p { color: #a0aec0; font-size: 12px; margin-top: 4px; }
+    .alert { background: rgba(255,71,87,0.1); border: 1px solid rgba(255,71,87,0.3); border-radius: 8px; padding: 10px 16px; margin: 16px 24px; color: #ff4757; font-size: 12px; }
+    table { width: calc(100% - 48px); margin: 16px 24px; border-collapse: collapse; font-size: 13px; }
+    th { background: #1a2332; color: #a0aec0; text-align: left; padding: 10px 12px; font-weight: 600; font-size: 11px; text-transform: uppercase; }
+    td { padding: 10px 12px; border-bottom: 1px solid #2d3748; }
+    tr:hover { background: rgba(99,179,237,0.05); }
+    .vip-row { background: rgba(124,111,247,0.08); border-left: 3px solid #7c6ff7; }
+    .tier-business { color: #7c6ff7; font-weight: 600; }
+    .tier-first { color: #f6ad55; font-weight: 600; }
+    .tier-economy { color: #a0aec0; }
+    .status-pending { color: #f6ad55; }
+    .status-resolved { color: #48bb78; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>SilverOS — Passenger Manifest</h1>
+    <p>Flight SQ321 SIN→LHR | 24 Apr 2026 | 287 passengers | Status: DELAYED +5h (AOG)</p>
+  </div>
+
+  <div class="alert">
+    3 passengers with missed connections require immediate service recovery.
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Seat</th>
+        <th>Passenger</th>
+        <th>Class</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Recovery Status</th>
+        <th>Connection</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="vip-row">
+        <td>1A</td>
+        <td data-waypoint-field="passenger-name">James Lim Wei Ming</td>
+        <td class="tier-business" data-waypoint-field="passenger-tier">Business Class</td>
+        <td data-waypoint-field="passenger-email">james.lim@sgfintech.com.sg</td>
+        <td data-waypoint-field="passenger-phone">+65 9123 4567</td>
+        <td class="status-pending" data-waypoint-field="passenger-recovery-status">&#9203; Pending</td>
+        <td><span data-waypoint-field="passenger-connection" style="display:none">SQ637/ICN/17:30</span>SQ637 → Seoul 17:30</td>
+      </tr>
+      <tr>
+        <td>2C</td>
+        <td>Sarah Chen Yi Ling</td>
+        <td class="tier-business">Business Class</td>
+        <td>sarah.chen@example.com</td>
+        <td>+65 8234 5678</td>
+        <td class="status-pending">&#9203; Pending</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>3A</td>
+        <td>Robert Tan Kah Wei</td>
+        <td class="tier-business">Business Class</td>
+        <td>robert.tan@corpmail.sg</td>
+        <td>+65 9345 6789</td>
+        <td class="status-resolved">&#9989; Resolved</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>12F</td>
+        <td>Priya Nair</td>
+        <td class="tier-economy">Economy</td>
+        <td>priya.n@gmail.com</td>
+        <td>+65 8456 7890</td>
+        <td class="status-pending">&#9203; Pending</td>
+        <td>SQ862 → Mumbai 19:00</td>
+      </tr>
+      <tr>
+        <td>18A</td>
+        <td>David Wong</td>
+        <td class="tier-economy">Economy</td>
+        <td>david.w@outlook.com</td>
+        <td>+65 9567 8901</td>
+        <td class="status-resolved">&#9989; Resolved</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>24D</td>
+        <td>Emily Zhao</td>
+        <td class="tier-economy">Economy</td>
+        <td>emily.z@mail.com</td>
+        <td>+65 8678 9012</td>
+        <td class="status-pending">&#9203; Pending</td>
+        <td>SQ998 → Tokyo 20:15</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

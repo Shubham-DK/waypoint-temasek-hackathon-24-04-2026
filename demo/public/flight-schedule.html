@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SilverOS — Flight Schedule</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1923; color: #e2e8f0; }
+    .header { background: #1a2332; padding: 16px 24px; border-bottom: 1px solid #2d3748; display: flex; align-items: center; gap: 12px; }
+    .header h1 { font-size: 18px; font-weight: 600; }
+    .header .badge { background: #2d3748; color: #a0aec0; padding: 3px 10px; border-radius: 12px; font-size: 11px; }
+    .alert { background: rgba(255,71,87,0.1); border: 1px solid rgba(255,71,87,0.3); border-radius: 8px; padding: 12px 16px; margin: 16px 24px; color: #ff4757; font-size: 13px; }
+    .alert strong { color: #ff6b81; }
+    .stats { display: flex; gap: 16px; padding: 12px 24px; }
+    .stat { background: #1a2332; border: 1px solid #2d3748; border-radius: 8px; padding: 12px 16px; flex: 1; text-align: center; }
+    .stat-value { font-size: 24px; font-weight: 700; color: #63b3ed; }
+    .stat-label { font-size: 11px; color: #a0aec0; margin-top: 4px; }
+    .stat.warning .stat-value { color: #ff4757; }
+    table { width: calc(100% - 48px); margin: 16px 24px; border-collapse: collapse; font-size: 13px; }
+    th { background: #1a2332; color: #a0aec0; text-align: left; padding: 10px 12px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+    td { padding: 10px 12px; border-bottom: 1px solid #2d3748; }
+    tr:hover { background: rgba(99,179,237,0.05); }
+    .delayed-row { background: rgba(255,71,87,0.08); }
+    .delayed-row td { color: #ff6b81; }
+    .status-on-time { color: #48bb78; }
+    .status-delayed { color: #ff4757; font-weight: 600; }
+    .status-boarding { color: #63b3ed; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>SilverOS — Flight Operations</h1>
+    <span class="badge">Live Dashboard</span>
+    <span class="badge">24 Apr 2026</span>
+  </div>
+
+  <div class="alert">
+    <strong>ALERT:</strong> SQ321 (SIN→LHR) delayed +5h due to AOG — 287 passengers, 3 missed connections. Service recovery required for affected Business/First Class passengers.
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">24</div>
+      <div class="stat-label">Total Departures</div>
+    </div>
+    <div class="stat warning">
+      <div class="stat-value">1</div>
+      <div class="stat-label">Delayed</div>
+    </div>
+    <div class="stat warning">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Missed Connections</div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Flight</th>
+        <th>Destination</th>
+        <th>Scheduled</th>
+        <th>Status</th>
+        <th>Gate</th>
+        <th>Aircraft</th>
+        <th>PAX</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>SQ22</td><td>New York (JFK)</td><td>08:25</td>
+        <td class="status-on-time">On Time</td><td>A12</td><td>A350-900ULR</td><td>161</td><td>—</td>
+      </tr>
+      <tr>
+        <td>SQ318</td><td>London (LHR)</td><td>09:10</td>
+        <td class="status-boarding">Boarding</td><td>B7</td><td>A380-800</td><td>379</td><td>—</td>
+      </tr>
+      <tr class="delayed-row">
+        <td><strong>SQ321</strong></td><td><strong>London (LHR)</strong></td><td><strong>11:30 → 16:30</strong></td>
+        <td class="status-delayed">DELAYED +5h</td><td>C3</td><td>B777-300ER</td><td>287</td>
+        <td><strong>AOG — 3 missed connections</strong></td>
+      </tr>
+      <tr>
+        <td>SQ618</td><td>Osaka (KIX)</td><td>10:00</td>
+        <td class="status-on-time">On Time</td><td>D5</td><td>A350-900</td><td>253</td><td>—</td>
+      </tr>
+      <tr>
+        <td>SQ226</td><td>Sydney (SYD)</td><td>10:45</td>
+        <td class="status-on-time">On Time</td><td>A8</td><td>B787-10</td><td>301</td><td>—</td>
+      </tr>
+      <tr>
+        <td>SQ637</td><td>Seoul (ICN)</td><td>17:30</td>
+        <td class="status-on-time">On Time</td><td>B2</td><td>A350-900</td><td>267</td><td>—</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

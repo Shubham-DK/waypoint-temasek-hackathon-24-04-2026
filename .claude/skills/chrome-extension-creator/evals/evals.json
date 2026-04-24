@@ -1,0 +1,23 @@
+{
+  "skill_name": "chrome-extension-creator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Build me a Chrome extension that highlights all links on any webpage in yellow when I click the extension icon. It should toggle — click once to highlight, click again to remove highlights. Keep it simple, no popup needed.",
+      "expected_output": "A complete MV3 extension with manifest.json, background.js using chrome.action.onClicked + chrome.scripting.executeScript, and a toggle content script that adds/removes yellow highlights on all <a> elements. Should use activeTab permission.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I need a Chrome extension with a popup that shows me my most visited sites from browsing history. Show the top 10 sites with their visit count and a small favicon. Add a search box to filter the list. Use modern CSS.",
+      "expected_output": "A complete MV3 extension with manifest.json, popup.html, popup.js, popup.css. Should use chrome.history.search API with permissions ['history']. Popup should display a search input and a styled list of top 10 visited URLs with favicon (via chrome:// or Google favicon service) and visit count.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Create a Chrome extension that blocks ads and trackers. It should use declarativeNetRequest to block requests from a list of known ad/tracker domains. Include a popup that shows how many requests have been blocked on the current tab and lets the user add custom domains to block.",
+      "expected_output": "A complete MV3 extension with manifest.json, static rules in rules.json using declarativeNetRequest, background.js for tracking blocked counts, popup.html/js/css for displaying blocked count and managing custom blocked domains via chrome.declarativeNetRequest.updateDynamicRules. Should use storage permission for persisting custom rules and blocked counts.",
+      "files": []
+    }
+  ]
+}

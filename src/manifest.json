@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Waypoint",
+  "version": "2.0",
+  "description": "AI-powered browser agent — navigate, understand, and get things done across any web app.",
+  "permissions": ["activeTab", "scripting", "tabs", "sidePanel", "storage"],
+  "host_permissions": ["<all_urls>"],
+  "background": { "service_worker": "background.ts" },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.ts"],
+    "run_at": "document_idle"
+  }],
+  "side_panel": { "default_path": "sidepanel/index.html" },
+  "action": { "default_title": "Open Waypoint" },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src https://api.anthropic.com https://api.genspark.ai https://jira.mcp.sq.com.sg https://bitbucket.mcp.sq.com.sg https://confluence.mcp.sq.com.sg https://siacontext.mcp.sq.com.sg https://mcp.sq.com.sg;"
+  }
+}
