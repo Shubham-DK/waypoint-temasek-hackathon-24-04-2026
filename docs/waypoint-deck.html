@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Waypoint — Pitch Deck</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #0d1117;
+    --surface: #161b22;
+    --surface2:#1c2230;
+    --border:  #30363d;
+    --accent:  #7c6ff7;
+    --accent2: #4ade80;
+    --warn:    #f59e0b;
+    --danger:  #f87171;
+    --text:    #e6edf3;
+    --muted:   #8b949e;
+  }
+
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+
+  /* ── Deck wrapper ── */
+  #deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 28px 64px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(60px);
+    transition: opacity .4s ease, transform .4s ease;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(0);
+  }
+  .slide.exit-left {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  /* slide-specific top bars */
+  .slide::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+  }
+  #slide-1::before { background: linear-gradient(90deg, var(--danger), #f59e0b, var(--accent)); }
+  #slide-2::before { background: linear-gradient(90deg, var(--accent), #a78bfa, var(--accent2)); }
+
+  /* slide backgrounds */
+  #slide-1 { background: var(--surface); justify-content: flex-start; gap: 0; }
+  #slide-2 { background: var(--surface); }
+
+  /* slide-1 layout */
+  #slide-1 .resolution { margin-top: auto; }
+
+  .failure-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 20px; }
+  .failure-card { background: var(--surface2); border: 1px solid var(--border); border-top: 3px solid var(--danger); border-radius: 14px; padding: 22px 26px; }
+  .failure-icon { font-size: 36px; margin-bottom: 10px; }
+  .failure-title { font-size: 30px; font-weight: 800; color: var(--danger); margin-bottom: 8px; }
+  .failure-desc { font-size: 20px; color: var(--muted); line-height: 1.55; }
+
+
+
+  /* ════════════════════════════════
+     SHARED COMPONENTS
+  ════════════════════════════════ */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, var(--accent), #a78bfa);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+  }
+  .logo-text {
+    font-size: 42px; font-weight: 800;
+    background: linear-gradient(135deg, #fff 40%, var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .tagline { font-size: 15px; color: var(--muted); margin-top: 2px; }
+
+  /* ════════════════════════════════
+     SLIDE 1 — PROBLEM
+  ════════════════════════════════ */
+  .slide-label {
+    font-size: 15px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--danger);
+    background: rgba(248,113,113,.1); border: 1px solid rgba(248,113,113,.3);
+    padding: 6px 18px; border-radius: 20px;
+  }
+  .headline-p1 { font-size: 58px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 0; }
+  .headline-p1 span { color: var(--danger); }
+  .sub-p1 { font-size: 24px; color: var(--muted); line-height: 1.55; max-width: 960px; }
+
+  .body-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    flex: 1; margin-top: 16px;
+  }
+  .workflow { display: flex; flex-direction: column; gap: 10px; }
+  .workflow-title { font-size: 15px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--warn); margin-bottom: 4px; }
+  .wf-step { display: flex; align-items: flex-start; gap: 14px; background: rgba(248,113,113,.06); border: 1px solid rgba(248,113,113,.18); border-radius: 12px; padding: 14px 18px; }
+  .wf-icon { font-size: 28px; flex-shrink: 0; margin-top: 1px; }
+  .wf-text { font-size: 19px; color: var(--text); line-height: 1.5; }
+  .wf-text strong { color: #fff; }
+
+  .right-col { display: flex; flex-direction: column; gap: 12px; }
+  .section-title { font-size: 17px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+  .problems { display: flex; flex-direction: column; gap: 8px; }
+  .problem { display: flex; align-items: flex-start; gap: 14px; background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--danger); border-radius: 10px; padding: 12px 16px; }
+  .problem-label { font-size: 17px; font-weight: 800; color: var(--danger); min-width: 90px; flex-shrink: 0; }
+  .problem-desc { font-size: 17px; color: var(--muted); line-height: 1.5; }
+  .solutions { display: flex; gap: 8px; margin-top: 4px; }
+  .sol { flex: 1; background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 17px; color: var(--muted); line-height: 1.5; text-align: center; }
+  .sol-icon { font-size: 24px; margin-bottom: 6px; }
+  .sol-name { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+
+  .resolution { display: flex; align-items: center; gap: 18px; background: linear-gradient(135deg, rgba(124,111,247,.18), rgba(74,222,128,.08)); border: 1.5px solid rgba(124,111,247,.4); border-radius: 14px; padding: 16px 28px; box-shadow: 0 0 20px rgba(124,111,247,.2); }
+  .resolution-icon { font-size: 44px; flex-shrink: 0; }
+  .resolution-text { font-size: 22px; color: var(--text); line-height: 1.55; }
+  .resolution-text strong { color: var(--accent2); }
+
+  /* ════════════════════════════════
+     SLIDE 2 — SOLUTION
+  ════════════════════════════════ */
+  .headline-p2 { font-size: 46px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 6px; }
+  .headline-p2 span { color: var(--accent); }
+  .sub-p2 { font-size: 20px; color: var(--muted); margin-bottom: 10px; white-space: nowrap; line-height: 1.5; }
+
+  .pipeline { display: flex; align-items: stretch; gap: 0; margin-bottom: 0; }
+  .step { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 24px 24px; position: relative; display: flex; flex-direction: column; gap: 8px; }
+  .step:not(:last-child)::after { content: '→'; position: absolute; right: -22px; top: 50%; transform: translateY(-50%); font-size: 31px; color: var(--muted); z-index: 2; }
+  .step:not(:last-child) { margin-right: 36px; }
+  .step.record  { border-top: 2px solid #60a5fa; }
+  .step.generate{ border-top: 2px solid var(--accent); }
+  .step.execute { border-top: 2px solid var(--accent2); }
+  .step-num { font-size: 14px; font-weight: 700; letter-spacing: .1em; color: var(--accent); text-transform: uppercase; margin-bottom: 4px; }
+  .step-icon { font-size: 40px; margin-bottom: 4px; }
+  .step-title { font-size: 26px; font-weight: 700; color: #fff; }
+  .step-desc { font-size: 17px; color: var(--muted); line-height: 1.55; flex: 1; }
+  .pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 8px; }
+  .pill { display: inline-flex; align-items: center; gap: 5px; font-size: 15px; font-weight: 600; padding: 5px 14px; border-radius: 20px; width: fit-content; }
+  .pill.claude  { background: rgba(124,111,247,.18); color: #a78bfa; border: 1px solid rgba(124,111,247,.3); }
+  .pill.genspark{ background: rgba(245,158,11,.15); color: #fbbf24; border: 1px solid rgba(245,158,11,.3); }
+  .pill.browser { background: rgba(96,165,250,.15); color: #93c5fd; border: 1px solid rgba(96,165,250,.3); }
+  .pill.ci      { background: rgba(74,222,128,.15); color: #6ee7b7; border: 1px solid rgba(74,222,128,.3); }
+
+  .rr-strip { display: flex; align-items: center; gap: 32px; background: rgba(124,111,247,.07); border: 1px solid rgba(124,111,247,.22); border-radius: 12px; padding: 10px 28px; margin-bottom: 12px; }
+  .rr-item { display: flex; align-items: center; gap: 10px; font-size: 16px; color: var(--text); white-space: nowrap; }
+  .rr-item .rr-icon { font-size: 18px; }
+  .rr-item strong { color: #fff; }
+  .rr-sep { width: 1px; align-self: stretch; background: rgba(124,111,247,.25); }
+
+  .ai-label { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--muted); margin-bottom: 10px; }
+  .ai-label::before, .ai-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .bottom { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; }
+  .insight { background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start; }
+  .insight-icon { font-size: 30px; flex-shrink: 0; }
+  .insight-title { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .05em; }
+  .insight-desc { font-size: 16px; color: var(--muted); line-height: 1.55; }
+  .insight-desc strong { color: var(--accent2); }
+  .divider { height: 1px; background: var(--border); margin: 10px 0; }
+</style>
+</head>
+<body>
+
+<div id="deck">
+
+  <!-- ══════════════════════════════
+       SLIDE 1 — PROBLEM STATEMENT
+  ══════════════════════════════ -->
+  <div class="slide active" id="slide-1">
+
+    <div class="headline-p1" style="margin-top:6px;">Enterprise workflows are <span>manual, fragmented,</span> and breaking under pressure.</div>
+    <p class="sub-p1" style="margin-top:10px;">Operators need to manage multiple disconnected systems simultaneously, copying data by hand between tabs, filling the same forms repeatedly, and executing multi-step processes.</p>
+
+    <div class="failure-row">
+      <div class="failure-card">
+        <div class="failure-icon">⚡</div>
+        <div class="failure-title">Speed</div>
+        <div class="failure-desc">Response time is bottlenecked by human execution across disconnected UIs — not by decision-making.</div>
+      </div>
+      <div class="failure-card">
+        <div class="failure-icon">⚠️</div>
+        <div class="failure-title">Errors</div>
+        <div class="failure-desc">Manual copy-paste between systems introduces transcription mistakes with real downstream consequences.</div>
+      </div>
+      <div class="failure-card">
+        <div class="failure-icon">📈</div>
+        <div class="failure-title">Scale</div>
+        <div class="failure-desc">One operator, one workflow at a time — no way to scale without costly engineering effort per system.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;">
+      <div class="section-title" style="margin-bottom:10px;">❌ Existing tools fall short</div>
+      <div class="solutions">
+        <div class="sol"><div class="sol-icon">🤖</div><div class="sol-name">RPA</div>Brittle CSS selectors — breaks on any UI change</div>
+        <div class="sol"><div class="sol-icon">🔌</div><div class="sol-name">API Integrations</div>Requires engineering effort most teams can't afford</div>
+        <div class="sol"><div class="sol-icon">💬</div><div class="sol-name">In-app Copilots</div>Siloed within one product — can't act across systems</div>
+      </div>
+    </div>
+
+    <div class="resolution" style="margin-top:auto;">
+      <div class="resolution-icon">💡</div>
+      <div class="resolution-text">
+        What if an AI agent could read live page content across every tab, plan the exact steps needed, and execute them — so a <strong>15-minute manual workflow becomes a single sentence?</strong> No APIs. No RPA. No code.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════
+       SLIDE 2 — CORE SOLUTION
+  ══════════════════════════════ -->
+  <div class="slide" id="slide-2">
+
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">🧭</div>
+        <div>
+          <div class="logo-text">Waypoint</div>
+          <div class="tagline">Browser-Native Workflow Intelligence</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; background:linear-gradient(135deg, rgba(124,111,247,.45), rgba(167,139,250,.3), rgba(245,158,11,.3)); border:1.5px solid rgba(167,139,250,.7); border-radius:14px; padding:12px 24px; box-shadow: 0 0 24px rgba(124,111,247,.45), 0 0 10px rgba(245,158,11,.25);">
+        <span style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; color:rgba(255,255,255,.7);">Powered by</span>
+        <span style="width:1px; height:20px; background:rgba(255,255,255,.3);"></span>
+        <span style="font-weight:800; font-size:21px; color:#c4b5fd; text-shadow:0 0 14px rgba(167,139,250,.8);">⚡ Anthropic Claude</span>
+        <span style="color:rgba(255,255,255,.3); font-size:18px; font-weight:300;">|</span>
+        <span style="font-weight:800; font-size:21px; color:#fde68a; text-shadow:0 0 14px rgba(251,191,36,.7);">🔍 Genspark</span>
+      </div>
+    </div>
+
+    <div class="headline-p2">Your AI colleague in the side panel. <span>Always ready, never in the way.</span></div>
+    <p class="sub-p2">Waypoint lives in your browser and works alongside you — reading what's on your screen, navigating on your behalf, and getting things done across any web application. Just type what you need.</p>
+
+    <div class="rr-strip">
+      <div class="rr-item"><span class="rr-icon">🎬</span> <span><strong>Record</strong> any browser workflow once — clicks, fills, navigations captured as a structured action log</span></div>
+      <div class="rr-sep"></div>
+      <div class="rr-item"><span class="rr-icon">💾</span> <span><strong>Save</strong> as a reusable playbook</span></div>
+      <div class="rr-sep"></div>
+      <div class="rr-item"><span class="rr-icon">▶️</span> <span><strong>Replay</strong> on demand — different data, same workflow, zero re-recording</span></div>
+    </div>
+
+    <div class="ai-label">3 pre-built agents &middot; <strong style="color:var(--accent2);font-weight:700;">extend or build your own</strong> &middot; example: &ldquo;Passenger missed connection — rebook, apply meal voucher&rdquo;</div>
+    <div class="pipeline">
+
+      <div class="step record">
+        <div class="step-num">Agent 01</div>
+        <div class="step-icon">🗣️</div>
+        <div class="step-title">Scenario In</div>
+        <div class="step-desc">Describe the task in plain English. "The passenger missed their connection — rebook them and apply a meal voucher." Waypoint parses the intent, breaks it into steps, and kicks off the right sequence. No scripting, no setup required.</div>
+        <div class="pill-row">
+          <div class="pill browser">🧭 Orchestrator</div>
+          <div class="pill claude">⚡ Claude</div>
+        </div>
+      </div>
+
+      <div class="step generate">
+        <div class="step-num">Agent 02</div>
+        <div class="step-icon">🗺️</div>
+        <div class="step-title">Site Select</div>
+        <div class="step-desc">Waypoint knows which systems, tabs, and portals your workflow touches. It matches the task to the right screens — drawing from your connected knowledge base to navigate with context, not guesswork.</div>
+        <div class="pill-row">
+          <div class="pill browser">📚 Knowledge Base</div>
+          <div class="pill claude">⚡ Claude</div>
+        </div>
+      </div>
+
+      <div class="step execute">
+        <div class="step-num">Agent 03</div>
+        <div class="step-icon">🎯</div>
+        <div class="step-title">Read, Verify &amp; Execute</div>
+        <div class="step-desc">Reads live page structure, interprets forms and field values, then prepares the action for your review. You confirm, you submit — AI does the navigation, your staff makes the call.</div>
+        <div class="pill-row">
+          <div class="pill ci">👤 Human-in-the-Loop</div>
+          <div class="pill claude">⚡ Claude</div>
+          <div class="pill genspark">🔍 Genspark</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="bottom">
+      <div class="insight">
+        <div class="insight-icon">💬</div>
+        <div>
+          <div class="insight-title">Natural Language Control</div>
+          <div class="insight-desc">No code, no rigid scripts. Just type what you need in plain English and Waypoint figures out the rest — across any web application your team already uses.</div>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">👁️</div>
+        <div>
+          <div class="insight-title">Visual Understanding</div>
+          <div class="insight-desc">Reads and interprets UI elements, page states, and screen changes in real time. Ask it to summarise a booking, explain a form, or flag what needs attention.</div>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">👤</div>
+        <div>
+          <div class="insight-title">Human-in-the-Loop by Design</div>
+          <div class="insight-desc">AI navigates and prepares. You review and confirm. Every critical action stays in human hands — so your staff stays focused on the passenger, not the system.</div>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🔒</div>
+        <div>
+          <div class="insight-title">Sensitive Data Protection</div>
+          <div class="insight-desc">Pattern-based tokenization masks PII and confidential fields before they reach the AI. Your data stays <strong>secure and compliant</strong> without extra configuration.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div><!-- /deck -->
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  function goTo(n) {
+    if (n < 0 || n >= total || n === current) return;
+    slides[current].classList.remove('active');
+    slides[current].classList.add('exit-left');
+    setTimeout(() => slides[current].classList.remove('exit-left'), 400);
+    current = n;
+    slides[current].classList.add('active');
+  }
+
+  // keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
+  });
+</script>
+</body>
+</html>
