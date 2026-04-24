@@ -74,7 +74,19 @@ The extension UI adopts the accent colour of whichever site is in your active ta
 - An [Anthropic API key](https://console.anthropic.com/)
 - Node.js 18+
 
-### Build & Install
+### Option A — Install from pre-built zip (quickest)
+
+A ready-to-use `waypoint-extension.zip` is included in the repository root.
+
+1. Unzip `waypoint-extension.zip` — you'll get a `dist/` folder
+2. Open `chrome://extensions` in Chrome
+3. Enable **Developer mode** (toggle top-right)
+4. Click **Load unpacked** → select the `dist/` folder
+5. Open any webpage and click the Waypoint icon in the toolbar to open the side panel
+
+> Chrome no longer supports direct `.crx` installs from outside the Web Store. The zip → Load unpacked flow is the standard way to share unpacked extensions. To publish to the Chrome Web Store, upload this same zip to the [Developer Dashboard](https://chrome.google.com/webstore/devconsole).
+
+### Option B — Build from source
 
 ```bash
 # Install dependencies
